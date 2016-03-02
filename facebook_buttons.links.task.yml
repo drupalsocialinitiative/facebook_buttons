@@ -1,0 +1,14 @@
+facebook_buttons.settings:
+  route_name: facebook_buttons.settings
+  title: Facebook Buttons
+  base_route: facebook_plugins.settings
+
+facebook_buttons.like:
+  title: Like
+  route_name: facebook_buttons.settings
+  parent_id: facebook_buttons.settings
+
+facebook_buttons.share:
+  title: Share
+  route_name: facebook_buttons.share
+  parent_id: facebook_buttons.settings

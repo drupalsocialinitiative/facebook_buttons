@@ -1,0 +1,15 @@
+facebook_buttons.settings:
+  path: /admin/config/social-api/facebook/buttons
+  defaults:
+    _title: Facebook Buttons
+    _form: Drupal\facebook_buttons\Form\FacebookButtonsSettings
+  requirements:
+    _permission: administer social api plugins
+
+facebook_buttons.share:
+  path: /admin/config/social-api/facebook/buttons/share
+  defaults:
+    _title: Facebook Buttons
+    _form: Drupal\facebook_buttons\Form\ShareButtonSettings
+  requirements:
+    _permission: administer social api plugins
