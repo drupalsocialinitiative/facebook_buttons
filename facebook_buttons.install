@@ -1,0 +1,11 @@
+<?php
+/*
+ * Install and uninstall functions for the Facebook Buttons module
+ */
+
+/*
+ * Implements hook_install().
+ */
+function facebook_buttons_install() {
+
+}

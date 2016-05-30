@@ -1,5 +1,0 @@
-administer fblikebutton block:
-  title: 'Administer FB Like button block'
-  description: 'Perform administration tasks for FB Like button block'
-access fblikebutton:
-  title: 'Access FB Like button'

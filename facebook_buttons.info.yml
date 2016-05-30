@@ -1,8 +1,8 @@
 name: Facebook Buttons
-type: module
-description: Facebook Buttons for Social API
-core: 8.x
+description: Add Facebook buttons to content and blocks
 package: Social
+core: 8.x
+type: module
 dependencies:
-  - social_api
-  - facebook
+  - facebook_widgets
+  - social_widgets

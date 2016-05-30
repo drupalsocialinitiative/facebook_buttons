@@ -44,7 +44,7 @@ class FacebookButtonsSettings extends ConfigFormBase {
       '#type' => 'checkboxes',
       '#title' => $this->t('Display the Like button on these content types:'),
       '#options' => $node_options,
-      '#default_value' => $config->get('node_types'),
+      '#default_value' => $config->get('node_types') ? $config->get('node_types') : array(),
       '#description' => $this->t('Each of these content types will have the "like" button automatically added to them.'),
     );
     $form['like_visibility']['teaser_display'] = array(
