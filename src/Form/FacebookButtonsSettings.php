@@ -7,11 +7,38 @@
 
 namespace Drupal\facebook_buttons\Form;
 
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Url;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class FacebookButtonsSettings extends ConfigFormBase {
+
+  /**
+   * @var \Drupal\facebook_buttons\Form\LikeButtonSettingsForm
+   */
+  protected $likeForm;
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    return new static($container->get('config.factory'),
+                      $container->get('facebook_buttons.like_form'));
+  }
+
+
+  /**
+   * FacebookButtonsSettings constructor.
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
+   *
+   * @param \Drupal\facebook_buttons\Form\LikeButtonSettingsForm $like_form
+   */
+  public function __construct(ConfigFactoryInterface $config_factory, LikeButtonSettingsForm $like_form) {
+    parent::__construct($config_factory);
+
+    $this->likeForm = $like_form;
+  }
 
   /**
    * {@inheritdoc}
@@ -33,95 +60,13 @@ class FacebookButtonsSettings extends ConfigFormBase {
   public function buildForm(array $form, FormStateInterface $form_state) {
     $config = $this->config('facebook_buttons.settings');
 
-    $node_options = node_type_get_names();
-
-    $form['like_visibility'] = array(
+    $form['like'] = array(
       '#type' => 'details',
-      '#title' => $this->t('Visibility settings'),
-      '#open' => TRUE,
-    );
-    $form['like_visibility']['node_types'] = array(
-      '#type' => 'checkboxes',
-      '#title' => $this->t('Display the Like button on these content types:'),
-      '#options' => $node_options,
-      '#default_value' => $config->get('node_types') ? $config->get('node_types') : array(),
-      '#description' => $this->t('Each of these content types will have the "like" button automatically added to them.'),
-    );
-    $form['like_visibility']['teaser_display'] = array(
-      '#type' => 'radios',
-      '#title' => $this->t('Where do you want to show the Like button on teasers?'),
-      '#options' => array(
-        $this->t('Don\'t show on teasers'),
-        $this->t('Content area'),
-      ),
-      '#default_value' => $config->get('teaser_display'),
-      '#description' => $this->t('If you want to show the like button on teasers you can select the display area.'),
+      '#title' => $this->t('Like Button'),
+      '#open' => FALSE,
     );
 
-    $form['like_appearance'] = array(
-      '#type' => 'details',
-      '#title' => $this->t('Appearance settings'),
-      '#open' => TRUE,
-    );
-    $form['like_appearance']['layout'] = array(
-      '#type' => 'select',
-      '#title' => $this->t('Layout style'),
-      '#options' => array('standard' => $this->t('Standard'),
-        'box_count' => $this->t('Box Count'),
-        'button_count' => $this->t('Button Count'),
-        'button' => $this->t('Button')),
-      '#default_value' => $config->get('layout'),
-      '#description' => $this->t('Determines the size and amount of social context next to the button.'),
-    );
-    // The actial values passed in from the options will be converted to a boolean
-    // in the validation function, so it doesn't really matter what we use.
-    $form['like_appearance']['show_faces'] = array(
-      '#type' => 'select',
-      '#title' => $this->t('Show faces in the box?'),
-      '#options' => array(t('Do not show faces'), $this->t('Show faces')),
-      '#default_value' => $config->get('show_faces', TRUE),
-      '#description' => $this->t('Show profile pictures below the button. Only works if <em>Layout style</em> (found above) is set to <em>Standard</em> (otherwise, value is ignored).'),
-    );
-    $form['like_appearance']['action'] = array(
-      '#type' => 'select',
-      '#title' => $this->t('Verb to display'),
-      '#options' => array('like' => $this->t('Like'), 'recommend' => $this->t('Recommend')),
-      '#default_value' => $config->get('action'),
-      '#description' => $this->t('The verbiage to display inside the button itself.'),
-    );
-    $form['like_appearance']['font'] = array(
-      '#type' => 'select',
-      '#title' => $this->t('Font'),
-      '#options' => array(
-        'arial' => 'Arial',
-        'lucida+grande' => 'Lucida Grande',
-        'segoe+ui' => 'Segoe UI',
-        'tahoma' => 'Tahoma',
-        'trebuchet+ms' => 'Trebuchet MS',
-        'verdana' => 'Verdana',
-      ),
-      '#default_value' => $config->get('font', 'arial'),
-      '#description' => $this->t('The font with which to display the text of the button.'),
-    );
-    $form['like_appearance']['color_scheme'] = array(
-      '#type' => 'select',
-      '#title' => $this->t('Color scheme'),
-      '#options' => array('light' => $this->t('Light'), 'dark' => $this->t('Dark')),
-      '#default_value' => $config->get('color_scheme'),
-      '#description' => $this->t('The color scheme of the box environtment.'),
-    );
-    $form['like_appearance']['weight'] = array(
-      '#type' => 'number',
-      '#title' => $this->t('Weight'),
-      '#default_value' => $config->get('weight'),
-      '#description' => $this->t('The weight determines where, at the content block, the like button will appear. The larger the weight, the lower it will appear on the node. For example, if you want the button to appear more toward the top of the node, choose <em>-40</em> as opposed to <em>-39, -38, 0, 1,</em> or <em>50,</em> etc. To position the Like button in its own block, go to the ' . \Drupal::l($this->t('block page'), Url::fromRoute('block.admin_display')) . '.'),
-    );
-    $form['like_appearance']['language'] = array(
-      '#type' => 'textfield',
-      '#title' => $this->t('Language'),
-      '#default_value' => $config->get('language'),
-      '#description' => $this->t('Specific language to use. Default is English. Examples:<br />French (France): <em>fr_FR</em><br />French (Canada): <em>fr_CA</em><br />More information can be found at http://developers.facebook.com/docs/internationalization/ and a full XML list can be found at http://www.facebook.com/translations/FacebookLocales.xml'),
-    );
+    $form['like'][] = $this->likeForm->buildLikeForm($config);
 
     return parent::buildForm($form, $form_state);
   }
@@ -169,6 +114,10 @@ class FacebookButtonsSettings extends ConfigFormBase {
 
     // Clear render cache
     $this->clearCache();
+  }
+
+  protected function buildLikeForm(ConfigFactoryInterface &$config, array &$form) {
+
   }
 
   /**

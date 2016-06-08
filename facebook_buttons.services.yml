@@ -1,0 +1,3 @@
+services:
+  facebook_buttons.like_form:
+    class: Drupal\facebook_buttons\Form\LikeButtonSettingsForm
