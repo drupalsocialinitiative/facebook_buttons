@@ -39,8 +39,7 @@ function facebook_buttons_theme() {
 function facebook_buttons_node_view(array &$build, EntityInterface $node, EntityViewDisplayInterface $display, $view_mode) {
   $user = $account = \Drupal::currentUser();
   $config = \Drupal::config('facebook_buttons.settings');
-  $types = $config->get('node_types');
-  $full_node_display = $config->get('like.full_node_display');
+  $types = $config->get('like.node_types');
   $teaser_display = $config->get('like.teaser_display');
   $weight = $config->get('like.weight');
 
