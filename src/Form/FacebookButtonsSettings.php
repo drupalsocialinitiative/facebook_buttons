@@ -19,6 +19,7 @@ class FacebookButtonsSettings extends ConfigFormBase {
    */
   protected $likeForm;
 
+
   /**
    * {@inheritdoc}
    */
@@ -60,13 +61,7 @@ class FacebookButtonsSettings extends ConfigFormBase {
   public function buildForm(array $form, FormStateInterface $form_state) {
     $config = $this->config('facebook_buttons.settings');
 
-    $form['like'] = array(
-      '#type' => 'details',
-      '#title' => $this->t('Like Button'),
-      '#open' => FALSE,
-    );
-
-    $form['like'][] = $this->likeForm->buildLikeForm($config);
+    $form['like'] = $this->likeForm->buildForm($config);
 
     return parent::buildForm($form, $form_state);
   }
@@ -75,11 +70,7 @@ class FacebookButtonsSettings extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function validateForm(array &$form, FormStateInterface $form_state) {
-    if (null != $form_state->getValue('weight')) {
-      if (!is_numeric($form_state->getValue('weight'))) {
-        $form_state->setErrorByName('weight', $this->t('The weight of the like button must be a number (examples: 50 or -42 or 0).'));
-      }
-    }
+    $this->likeForm->validateForm($form_state);
   }
 
   /**
@@ -87,43 +78,9 @@ class FacebookButtonsSettings extends ConfigFormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     parent::submitForm($form, $form_state);
+
     $config = $this->config('facebook_buttons.settings');
 
-    $node_types = $form_state->getValue('node_types');
-    $full_node_display = $form_state->getValue('full_node_display');
-    $teaser_display = $form_state->getValue('teaser_display');
-    $layout = $form_state->getValue('layout');
-    $show_faces = $form_state->getValue('show_faces');
-    $action = $form_state->getValue('action');
-    $font = $form_state->getValue('font');
-    $color_scheme = $form_state->getValue('color_scheme');
-    $weight = $form_state->getValue('weight');
-    $language = $form_state->getValue('language');
-
-    $config->set('node_types', $node_types)
-          ->set('full_node_display', $full_node_display)
-          ->set('teaser_display', $teaser_display)
-          ->set('layout', $layout)
-          ->set('show_faces', $show_faces)
-          ->set('action', $action)
-          ->set('font', $font)
-          ->set('color_scheme', $color_scheme)
-          ->set('weight', $weight)
-          ->set('language', $language)
-          ->save();
-
-    // Clear render cache
-    $this->clearCache();
-  }
-
-  protected function buildLikeForm(ConfigFactoryInterface &$config, array &$form) {
-
-  }
-
-  /**
-   * @TODO Clear render cache to make the button use the new configration
-   */
-  protected function clearCache() {
-    \Drupal::cache('render')->invalidateAll();
+    $this->likeForm->submitForm($config, $form_state);
   }
 }
