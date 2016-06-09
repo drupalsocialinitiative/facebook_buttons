@@ -7,7 +7,6 @@
 namespace Drupal\facebook_buttons\Form;
 
 use Drupal\Core\Config\Config;
-use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\Url;
