@@ -48,13 +48,13 @@ class LikeButtonSettingsForm implements ButtonsFormInterface{
     );
     $form['visibility']['teaser_display'] = array(
       '#type' => 'radios',
-      '#title' => $this->t('Where do you want to show the Like button on teasers?'),
+      '#title' => $this->t('Do you want to show the Like button on teasers?'),
       '#options' => array(
-        $this->t('Don\'t show on teasers'),
-        $this->t('Content area'),
+        TRUE => $this->t('Yes'),
+        FALSE => $this->t('No'),
       ),
       '#default_value' => $config->get('like.teaser_display'),
-      '#description' => $this->t('If you want to show the like button on teasers you can select the display area.'),
+      '#description' => $this->t('If you want to show the like button on teasers, select yes.'),
     );
 
     $form['appearance'] = array(
@@ -72,14 +72,13 @@ class LikeButtonSettingsForm implements ButtonsFormInterface{
       '#default_value' => $config->get('like.layout'),
       '#description' => $this->t('Determines the size and amount of social context next to the button.'),
     );
-    // The actial values passed in from the options will be converted to a boolean
-    // in the validation function, so it doesn't really matter what we use.
     $form['appearance']['show_faces'] = array(
       '#type' => 'select',
       '#title' => $this->t('Show faces in the box?'),
       '#options' => array(t('Do not show faces'), $this->t('Show faces')),
       '#default_value' => $config->get('like.show_faces'),
-      '#description' => $this->t('Show profile pictures below the button. Only works if <em>Layout style</em> (found above) is set to <em>Standard</em> (otherwise, value is ignored).'),
+      '#description' => $this->t('Show profile pictures below the button. Only works if <em>Layout style</em> (found above)
+                                 is set to <em>Standard</em> (otherwise, value is ignored).'),
     );
     $form['appearance']['action'] = array(
       '#type' => 'select',
@@ -145,7 +144,6 @@ class LikeButtonSettingsForm implements ButtonsFormInterface{
   public function submitForm(Config $config, FormStateInterface $form_state) {
 
     $node_types = $form_state->getValue('node_types');
-    $full_node_display = $form_state->getValue('full_node_display');
     $teaser_display = $form_state->getValue('teaser_display');
     $layout = $form_state->getValue('layout');
     $show_faces = $form_state->getValue('show_faces');
@@ -156,7 +154,6 @@ class LikeButtonSettingsForm implements ButtonsFormInterface{
     $language = $form_state->getValue('language');
 
     $config->set('like.node_types', $node_types)
-      ->set('like.full_node_display', $full_node_display)
       ->set('like.teaser_display', $teaser_display)
       ->set('like.layout', $layout)
       ->set('like.show_faces', $show_faces)

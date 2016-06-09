@@ -1,8 +1,7 @@
 like:
   node_types:
     article: 'article'
-  full_node_display: 0
-  teaser_display: 0
+  teaser_display: FALSE
   layout: 'standard'
   show_faces: TRUE
   action: 'like'

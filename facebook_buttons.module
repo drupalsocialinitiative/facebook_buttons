@@ -49,7 +49,7 @@ function facebook_buttons_node_view(array &$build, EntityInterface $node, Entity
 
   if ($show) {
     // Content area
-    if (($view_mode == 'teaser' && $teaser_display == 1) || ($view_mode == 'full' && $full_node_display == 0)) {
+    if (($view_mode == 'teaser' && $teaser_display == true) || ($view_mode == 'full')) {
       $url = _facebook_buttons_get_node_url($node->id());
       $build['facebook_buttons_field'] = array(
         '#theme' => 'like-button',
@@ -58,22 +58,6 @@ function facebook_buttons_node_view(array &$build, EntityInterface $node, Entity
       );
     }
   }
-}
-
-function hook_node_links_alter(array &$node_links, NodeInterface $node, array &$context)
-{
-  $view_mode = $context['view_mode'];
-  
-  // Link area
-  if (($view_mode == 'teaser' && $teaser_display == 2) || ($view_mode == 'full' && $full_node_display == 1)) {
-    $url = fblikebutton_get_node_url($node->id());
-  }
-  
-  $node_links['fblikebutton_field'] = array(
-        '#theme' => 'fblikebutton',
-        '#url' => $url,
-        //'#attributes' => array('class' => array('links', 'inline')),
-      );
 }
 
 /**
@@ -102,6 +86,7 @@ function _facebook_conf() {
     'show_faces' => $config->get('like.show_faces'),
     'font' => $config->get('like.font'),
     'language' => $config->get('like.language'),
+    'url' => '',
   );
 
   return $conf;
