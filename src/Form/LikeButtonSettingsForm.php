@@ -6,6 +6,7 @@
 
 namespace Drupal\facebook_buttons\Form;
 
+use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Config\Config;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
@@ -20,6 +21,21 @@ use Drupal\Core\Url;
 class LikeButtonSettingsForm implements ButtonsFormInterface{
 
   use StringTranslationTrait;
+
+  /**
+   * @var \Drupal\Core\Cache\CacheBackendInterface $renderCache
+   */
+  private $renderCache;
+
+
+  /**
+   * LikeButtonSettingsForm constructor.
+   *
+   * @param \Drupal\Core\Cache\CacheBackendInterface $cache
+   */
+  public function __construct(CacheBackendInterface $cache) {
+    $this->renderCache = $cache;
+  }
 
   /**
    * {@inheritdoc}
@@ -169,9 +185,9 @@ class LikeButtonSettingsForm implements ButtonsFormInterface{
   }
 
   /**
-   * @TODO Clear render cache to make the button use the new configration
+   * Clear render cache to make the button use the new configuration
    */
   protected function clearCache() {
-    \Drupal::cache('render')->invalidateAll();
+    $this->renderCache->invalidateAll();
   }
 }
