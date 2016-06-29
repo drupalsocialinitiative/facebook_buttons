@@ -1,5 +1,8 @@
 services:
-  facebook_buttons.like_form:
+  facebook_buttons.like_settings_form:
     class: Drupal\facebook_buttons\Form\LikeButtonSettingsForm
     arguments:
       - @cache.render
+
+  facebook_buttons.like_settings_block:
+    class: Drupal\facebook_buttons\Plugin\Block\LikeButtonSettingsBlock

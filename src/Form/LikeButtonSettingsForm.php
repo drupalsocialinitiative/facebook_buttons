@@ -18,7 +18,7 @@ use Drupal\Core\Url;
  *
  * @package Drupal\facebook_buttons\Form
  */
-class LikeButtonSettingsForm implements ButtonsFormInterface{
+class LikeButtonSettingsForm implements ButtonsSettingsFormInterface {
 
   use StringTranslationTrait;
 
@@ -65,11 +65,8 @@ class LikeButtonSettingsForm implements ButtonsFormInterface{
     $form['visibility']['teaser_display'] = array(
       '#type' => 'radios',
       '#title' => $this->t('Do you want to show the Like button on teasers?'),
-      '#options' => array(
-        TRUE => $this->t('Yes'),
-        FALSE => $this->t('No'),
-      ),
-      '#default_value' => $config->get('like.teaser_display'),
+      '#options' => array($this->t('No'),$this->t('Yes')),
+      '#default_value' => (int) $config->get('like.teaser_display'),
       '#description' => $this->t('If you want to show the like button on teasers, select yes.'),
     );
 
@@ -81,7 +78,8 @@ class LikeButtonSettingsForm implements ButtonsFormInterface{
     $form['appearance']['layout'] = array(
       '#type' => 'select',
       '#title' => $this->t('Layout style'),
-      '#options' => array('standard' => $this->t('Standard'),
+      '#options' => array(
+        'standard' => $this->t('Standard'),
         'box_count' => $this->t('Box Count'),
         'button_count' => $this->t('Button Count'),
         'button' => $this->t('Button')),
@@ -91,7 +89,7 @@ class LikeButtonSettingsForm implements ButtonsFormInterface{
     $form['appearance']['show_faces'] = array(
       '#type' => 'select',
       '#title' => $this->t('Show faces in the box?'),
-      '#options' => array(t('Do not show faces'), $this->t('Show faces')),
+      '#options' => array($this->t('Do not show faces'), $this->t('Show faces')),
       '#default_value' => $config->get('like.show_faces'),
       '#description' => $this->t('Show profile pictures below the button. Only works if <em>Layout style</em> (found above)
                                  is set to <em>Standard</em> (otherwise, value is ignored).'),
@@ -103,39 +101,40 @@ class LikeButtonSettingsForm implements ButtonsFormInterface{
       '#default_value' => $config->get('like.action'),
       '#description' => $this->t('The verbiage to display inside the button itself.'),
     );
-    $form['appearance']['font'] = array(
+    $form['appearance']['size'] = array(
       '#type' => 'select',
-      '#title' => $this->t('Font'),
+      '#title' => $this->t('Size'),
       '#options' => array(
-        'arial' => 'Arial',
-        'lucida+grande' => 'Lucida Grande',
-        'segoe+ui' => 'Segoe UI',
-        'tahoma' => 'Tahoma',
-        'trebuchet+ms' => 'Trebuchet MS',
-        'verdana' => 'Verdana',
+        'small' => 'Small',
+        'large' => 'Large'
       ),
-      '#default_value' => $config->get('like.font'),
-      '#description' => $this->t('The font with which to display the text of the button.'),
+      '#default_value' => $config->get('like.size'),
+      '#description' => $this->t('The size of the button.'),
     );
-    $form['appearance']['color_scheme'] = array(
-      '#type' => 'select',
-      '#title' => $this->t('Color scheme'),
-      '#options' => array('light' => $this->t('Light'), 'dark' => $this->t('Dark')),
-      '#default_value' => $config->get('like.color_scheme'),
-      '#description' => $this->t('The color scheme of the box environtment.'),
+    $form['appearance']['width'] = array(
+      '#type' => 'number',
+      '#title' => $this->t('Button width'),
+      '#default_value' => $config->get('like.width')
     );
     $form['appearance']['weight'] = array(
       '#type' => 'number',
       '#title' => $this->t('Weight'),
       '#default_value' => $config->get('like.weight'),
-      '#description' => $this->t('The weight determines where, at the content block, the like button will appear. The larger the weight, the lower it will appear on the node. For example, if you want the button to appear more toward the top of the node, choose <em>-40</em> as opposed to <em>-39, -38, 0, 1,</em> or <em>50,</em> etc. To position the Like button in its own block, go to the ' . \Drupal::l($this->t('block page'), Url::fromRoute('block.admin_display')) . '.'),
+      '#description' => $this->t('The weight determines where, at the content block, the like button will appear.
+                        The larger the weight, the lower it will appear on the node. For example, if you want the
+                        button to appear more toward the top of the node, choose <em>-40</em> as opposed to
+                        <em>-39, -38, 0, 1,</em> or <em>50,</em> etc. To position the Like button in its own block,
+                        go to the ' . \Drupal::l($this->t('block page'), Url::fromRoute('block.admin_display')) . '.'),
     );
     $form['appearance']['language'] = array(
       '#type' => 'textfield',
       '#title' => $this->t('Language'),
       '#default_value' => $config->get('like.language'),
-      '#description' => $this->t('Specific language to use. Default is English. Examples:<br />French (France): <em>fr_FR</em><br />French (Canada): <em>fr_CA</em><br />More information can be found at http://developers.facebook.com/docs/internationalization/ and a full XML list can be found at http://www.facebook.com/translations/FacebookLocales.xml'),
-    );
+      '#description' => $this->t("Specific language to use. Default is English. Examples:<br />French (France): <em>fr_FR</em><br />French (Canada): <em>fr_CA</em><br />
+                        More information can be found at <a href=\"@info_url\">@info_url</a> and a full XML list can be found at <a href=\"@list_url\">@list_url</a>",
+                        array(
+                        "@info_url" => "https://developers.facebook.com/docs/internationalization",
+                        "@list_url" => "https://www.facebook.com/translations/FacebookLocales.xml")));
 
     return $form;
 
@@ -160,12 +159,12 @@ class LikeButtonSettingsForm implements ButtonsFormInterface{
   public function submitForm(Config $config, FormStateInterface $form_state) {
 
     $node_types = $form_state->getValue('node_types');
-    $teaser_display = $form_state->getValue('teaser_display');
+    $teaser_display = (bool) $form_state->getValue('teaser_display');
     $layout = $form_state->getValue('layout');
-    $show_faces = $form_state->getValue('show_faces');
+    $show_faces = (bool) $form_state->getValue('show_faces');
     $action = $form_state->getValue('action');
-    $font = $form_state->getValue('font');
-    $color_scheme = $form_state->getValue('color_scheme');
+    $size = $form_state->getValue('size');
+    $width = $form_state->getValue('width');
     $weight = $form_state->getValue('weight');
     $language = $form_state->getValue('language');
 
@@ -174,8 +173,8 @@ class LikeButtonSettingsForm implements ButtonsFormInterface{
       ->set('like.layout', $layout)
       ->set('like.show_faces', $show_faces)
       ->set('like.action', $action)
-      ->set('like.font', $font)
-      ->set('like.color_scheme', $color_scheme)
+      ->set('like.size', $size)
+      ->set('like.width', $width)
       ->set('like.weight', $weight)
       ->set('like.language', $language)
       ->save();
@@ -185,7 +184,7 @@ class LikeButtonSettingsForm implements ButtonsFormInterface{
   }
 
   /**
-   * Clear render cache to make the button use the new configuration
+   * @TODO Clear render cache to make the button use the new configuration
    */
   protected function clearCache() {
     $this->renderCache->invalidateAll();

@@ -5,7 +5,7 @@ like:
   layout: 'standard'
   show_faces: TRUE
   action: 'like'
-  font: 'arial'
-  color_scheme: 'light'
+  size: 'small'
+  width: ''
   weight: 0
   language: 'en_US'

@@ -1,0 +1,13 @@
+<div id="fb-root"></div>
+{{ attach_library('facebook_widgets/facebook-sdk') }}
+
+{% if buttons.like %}
+  <div class="fb-like" data-href="{{ url }}" data-layout="{{ layout }}"
+       data-width="{{ width }}" data-action="{{ action }}" data-size="{{ size }}"
+       data-show-faces="{{ show_faces }}" data-share="false">
+  </div>
+{% endif %}
+
+{% if buttons.share %}
+  
+{% endif %}

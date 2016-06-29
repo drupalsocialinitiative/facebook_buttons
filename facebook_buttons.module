@@ -2,33 +2,15 @@
 
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
-use Drupal\Core\Routing\RouteMatchInterface;
-use Drupal\Core\Url;
-
-/**
- * Implements hook_help()
- */
-function facebook_buttons_help($route_name, RouteMatchInterface $route_match) {
-  /*switch($route_name) {
-    case 'fblikebutton.settings':
-      $page_url = Url::fromRoute('block.admin_display');
-      $output = '<p>Configure the dynamic Like button. This Like button will like the URL you\'re visiting. ';
-      $output .= 'You can set the content types on which the button displays, choose to display it in the ';
-      $output .= 'content block or in the links area.</p>';
-      $output .= '<p style="font-weight:bold;">You can also configure Static Like Button Blocks in the ' . \Drupal::l('Block Layout page', $page_url) .'</p>';
-
-      return t($output);
-  }*/
-}
 
 /**
  * Implements hook_theme().
  */
 function facebook_buttons_theme() {
   return array(
-    'like-button' => array(
+    'facebook-buttons' => array(
       'variables' => _facebook_conf(),
-      'template' => 'like-button',
+      'template' => 'facebook-buttons',
     ),
   );
 }
@@ -51,9 +33,10 @@ function facebook_buttons_node_view(array &$build, EntityInterface $node, Entity
     if (($view_mode == 'teaser' && $teaser_display == true) || ($view_mode == 'full')) {
       $url = _facebook_buttons_get_node_url($node->id());
       $build['facebook_buttons_field'] = array(
-        '#theme' => 'like-button',
+        '#theme' => 'facebook-buttons',
         '#weight' => $weight,
         '#url' => $url,
+        '#buttons' => array('like' => TRUE)
       );
     }
   }
@@ -81,11 +64,12 @@ function _facebook_conf() {
   $conf = array(
     'layout' => $config->get('like.layout'),
     'action' => $config->get('like.action'),
-    'color_scheme' => $config->get('like.color_scheme'),
+    'width' => $config->get('like.width'),
     'show_faces' => $config->get('like.show_faces'),
-    'font' => $config->get('like.font'),
+    'size' => $config->get('like.size'),
     'language' => $config->get('like.language'),
     'url' => '',
+    'buttons' => array()
   );
 
   return $conf;

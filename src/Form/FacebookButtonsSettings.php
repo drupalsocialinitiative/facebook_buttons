@@ -25,7 +25,7 @@ class FacebookButtonsSettings extends ConfigFormBase {
    */
   public static function create(ContainerInterface $container) {
     return new static($container->get('config.factory'),
-                      $container->get('facebook_buttons.like_form'));
+                      $container->get('facebook_buttons.like_settings_form'));
   }
 
 

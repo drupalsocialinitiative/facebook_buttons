@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Contains \Drupal\facebook_buttons\Form\ButtonsFormInterface
+ * Contains \Drupal\facebook_buttons\Form\ButtonsSettingsFormInterface
  */
 
 namespace Drupal\facebook_buttons\Form;
@@ -10,7 +10,12 @@ namespace Drupal\facebook_buttons\Form;
 use Drupal\Core\Config\Config;
 use Drupal\Core\Form\FormStateInterface;
 
-interface ButtonsFormInterface {
+/**
+ * Interface ButtonsSettingsFormInterface
+ *
+ * @package Drupal\facebook_buttons\Form
+ */
+interface ButtonsSettingsFormInterface {
 
   /**
    * Build the form
