@@ -9,7 +9,7 @@ use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
 function facebook_buttons_theme() {
   return array(
     'facebook-buttons' => array(
-      'variables' => _facebook_conf(),
+      'variables' => _facebook_buttons_conf(),
       'template' => 'facebook-buttons',
     ),
   );
@@ -34,9 +34,9 @@ function facebook_buttons_node_view(array &$build, EntityInterface $node, Entity
       $url = _facebook_buttons_get_node_url($node->id());
       $build['facebook_buttons_field'] = array(
         '#theme' => 'facebook-buttons',
-        '#weight' => $weight,
+        '#buttons' => array('like' => TRUE),
         '#url' => $url,
-        '#buttons' => array('like' => TRUE)
+        '#weight' => $weight,
       );
     }
   }
@@ -59,17 +59,27 @@ function _facebook_buttons_get_node_url($node_id) {
  * Helper function to generate the configuration array used to generate the like
  * button.
  */
-function _facebook_conf() {
+function _facebook_buttons_conf() {
   $config = \Drupal::config('facebook_buttons.settings');
   $conf = array(
-    'layout' => $config->get('like.layout'),
-    'action' => $config->get('like.action'),
-    'width' => $config->get('like.width'),
-    'show_faces' => $config->get('like.show_faces'),
-    'size' => $config->get('like.size'),
-    'language' => $config->get('like.language'),
+    // General variables
+    'buttons' => array(),
     'url' => '',
-    'buttons' => array()
+    // Like variables
+    'like_url' => '',
+    'like_layout' => $config->get('like.layout'),
+    'like_action' => $config->get('like.action'),
+    'like_width' => $config->get('like.width'),
+    'like_show_faces' => $config->get('like.show_faces'),
+    'like_size' => $config->get('like.size'),
+    'like_share' => $config->get('like.share'),
+    // Share variables
+    'share_url' => '',
+    'share_layout' => '',
+    'share_size' => '',
+    // Send variables
+    'send_url' => '',
+    'send_size' => '',
   );
 
   return $conf;

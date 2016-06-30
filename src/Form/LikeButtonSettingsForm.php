@@ -47,7 +47,7 @@ class LikeButtonSettingsForm implements ButtonsSettingsFormInterface {
     $form = array(
       '#type' => 'details',
       '#title' => $this->t('Like Button'),
-      '#open' => FALSE,
+      '#open' => TRUE,
     );
 
     $form['visibility'] = array(
@@ -73,7 +73,7 @@ class LikeButtonSettingsForm implements ButtonsSettingsFormInterface {
     $form['appearance'] = array(
       '#type' => 'details',
       '#title' => $this->t('Appearance settings'),
-      '#open' => TRUE,
+      '#open' => FALSE,
     );
     $form['appearance']['layout'] = array(
       '#type' => 'select',
@@ -116,6 +116,14 @@ class LikeButtonSettingsForm implements ButtonsSettingsFormInterface {
       '#title' => $this->t('Button width'),
       '#default_value' => $config->get('like.width')
     );
+    $form['appearance']['share'] = array(
+      '#type' => 'radios',
+      '#title' => $this->t('Do you want to show the share button?'),
+      '#options' => array($this->t('No'),$this->t('Yes')),
+      '#default_value' => (int) $config->get('like.share'),
+      '#description' => $this->t('If you want to show the share button, select yes.
+                        This button is different from the below share button'),
+    );
     $form['appearance']['weight'] = array(
       '#type' => 'number',
       '#title' => $this->t('Weight'),
@@ -126,18 +134,8 @@ class LikeButtonSettingsForm implements ButtonsSettingsFormInterface {
                         <em>-39, -38, 0, 1,</em> or <em>50,</em> etc. To position the Like button in its own block,
                         go to the ' . \Drupal::l($this->t('block page'), Url::fromRoute('block.admin_display')) . '.'),
     );
-    $form['appearance']['language'] = array(
-      '#type' => 'textfield',
-      '#title' => $this->t('Language'),
-      '#default_value' => $config->get('like.language'),
-      '#description' => $this->t("Specific language to use. Default is English. Examples:<br />French (France): <em>fr_FR</em><br />French (Canada): <em>fr_CA</em><br />
-                        More information can be found at <a href=\"@info_url\">@info_url</a> and a full XML list can be found at <a href=\"@list_url\">@list_url</a>",
-                        array(
-                        "@info_url" => "https://developers.facebook.com/docs/internationalization",
-                        "@list_url" => "https://www.facebook.com/translations/FacebookLocales.xml")));
 
     return $form;
-
 
   }
 
@@ -166,7 +164,7 @@ class LikeButtonSettingsForm implements ButtonsSettingsFormInterface {
     $size = $form_state->getValue('size');
     $width = $form_state->getValue('width');
     $weight = $form_state->getValue('weight');
-    $language = $form_state->getValue('language');
+    $share = $form_state->getValue('share');
 
     $config->set('like.node_types', $node_types)
       ->set('like.teaser_display', $teaser_display)
@@ -175,8 +173,8 @@ class LikeButtonSettingsForm implements ButtonsSettingsFormInterface {
       ->set('like.action', $action)
       ->set('like.size', $size)
       ->set('like.width', $width)
+      ->set('like.share', $share)
       ->set('like.weight', $weight)
-      ->set('like.language', $language)
       ->save();
 
     // Clear render cache

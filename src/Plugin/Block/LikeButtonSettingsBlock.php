@@ -32,9 +32,9 @@ class LikeButtonSettingsBlock implements ButtonsSettingsBlockInterface {
       '#title' => $this->t('Button settings'),
       '#open' => TRUE,
     );
-    $form['settings']['block_url'] = array(
+    $form['settings']['url'] = array(
       '#type' => 'textfield',
-      '#default_value' => $config['like']['block_url'],
+      '#default_value' => $config['url'],
       '#description' => $this->t('URL of the page to like (could be your homepage or a facebook page e.g.)<br> You can also specify &lt;current&gt; to establish the url for the current viewed page in your site'),
     );
 
@@ -46,25 +46,26 @@ class LikeButtonSettingsBlock implements ButtonsSettingsBlockInterface {
     $form['appearance']['layout'] = array(
       '#type' => 'select',
       '#title' => $this->t('Layout style'),
-      '#options' => array('standard' => $this->t('Standard'),
+      '#options' => array(
+        'standard' => $this->t('Standard'),
         'box_count' => $this->t('Box Count'),
         'button_count' => $this->t('Button Count'),
         'button' => $this->t('Button')),
-      '#default_value' => $config['like']['layout'],
+      '#default_value' => $config['layout'],
       '#description' => $this->t('Determines the size and amount of social context next to the button'),
     );
     $form['appearance']['show_faces'] = array(
       '#type' => 'select',
       '#title' => $this->t('Display faces in the box'),
-      '#options' => array(TRUE => $this->t('Show faces'), FALSE => $this->t('Do not show faces')),
-      '#default_value' => $config['like']['show_faces'],
+      '#options' => array($this->t('Do not show faces'), $this->t('Show faces')),
+      '#default_value' => $config['show_faces'],
       '#description' => $this->t('Show profile pictures below the button. Only works with Standard layout'),
     );
     $form['appearance']['action'] = array(
       '#type' => 'select',
       '#title' => $this->t('Verb to display'),
       '#options' => array('like' => $this->t('Like'), 'recommend' => $this->t('Recommend')),
-      '#default_value' => $config['like']['action'],
+      '#default_value' => $config['action'],
       '#description' => $this->t('The verb to display in the button.'),
     );
     $form['appearance']['size'] = array(
@@ -74,23 +75,22 @@ class LikeButtonSettingsBlock implements ButtonsSettingsBlockInterface {
         'small' => 'Small',
         'large' => 'Large',
       ),
-      '#default_value' => $config['like']['size'],
+      '#default_value' => $config['size'],
       '#description' => $this->t('The size of the button'),
+    );
+    $form['appearance']['share'] = array(
+      '#type' => 'radios',
+      '#title' => $this->t('Do you want to show the share button?'),
+      '#options' => array($this->t('No'),$this->t('Yes')),
+      '#default_value' => (int) $config['share'],
+      '#description' => $this->t('If you want to show the share button, select yes.
+                        This button is different from the below share button'),
     );
     $form['appearance']['width'] = array(
       '#type' => 'number',
       '#title' => $this->t('Button width'),
-      '#default_value' => $config['like']['width'],
+      '#default_value' => $config['width'],
     );
-    $form['appearance']['language'] = array(
-      '#type' => 'textfield',
-      '#title' => $this->t('Language'),
-      '#default_value' => $config['like']['language'],
-      '#description' => $this->t("Specific language to use. Default is English. Examples:<br />French (France): <em>fr_FR</em><br />French (Canada): <em>fr_CA</em><br />
-                        More information can be found at <a href=\"@info_url\">@info_url</a> and a full XML list can be found at<a href=\"@list_url\">@list_url</a>",
-                        array(
-                        "@info_url" => "http://developers.facebook.com/docs/internationalization",
-                        "@list_url" => "http://www.facebook.com/translations/FacebookLocales.xml")));
 
     return $form;
   }
@@ -105,23 +105,21 @@ class LikeButtonSettingsBlock implements ButtonsSettingsBlockInterface {
   /**
    * {@inheritdoc}
    */
-  public function blockSubmit(array &$config, FormStateInterface $form_state) {
-    $values = $form_state->getValues();
-    $block_url = $values['like']['settings']['block_url'];
-    $layout = $values['like']['appearance']['layout'];
-    $show_faces = $values['like']['appearance']['show_faces'];
-    $action = $values['like']['appearance']['action'];
-    $size = $values['like']['appearance']['size'];
-    $width = $values['like']['appearance']['width'];
-    $language = $values['like']['appearance']['language'];
-
-    $config['like']['block_url'] = $block_url;
-    $config['like']['layout'] = $layout;
-    $config['like']['show_faces'] = $show_faces;
-    $config['like']['block_url'] = $block_url;
-    $config['like']['action'] = $action;
-    $config['like']['size'] = $size;
-    $config['like']['width'] = $width;
-    $config['like']['language'] = $language;
+  public function blockSubmit(array &$config, array &$values) {
+    $url = $values['settings']['url'];
+    $layout = $values['appearance']['layout'];
+    $show_faces = (bool) $values['appearance']['show_faces'];
+    $action = $values['appearance']['action'];
+    $size = $values['appearance']['size'];
+    $share = (bool) $values['appearance']['share'];
+    $width = $values['appearance']['width'];
+    $config['url'] = $url;
+    $config['layout'] = $layout;
+    $config['show_faces'] = $show_faces;
+    $config['block_url'] = $url;
+    $config['action'] = $action;
+    $config['size'] = $size;
+    $config['share'] = $share;
+    $config['width'] = $width;
   }
 }

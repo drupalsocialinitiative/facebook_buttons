@@ -6,3 +6,9 @@ services:
 
   facebook_buttons.like_settings_block:
     class: Drupal\facebook_buttons\Plugin\Block\LikeButtonSettingsBlock
+
+  facebook_buttons.share_settings_block:
+    class: Drupal\facebook_buttons\Plugin\Block\ShareButtonSettingsBlock
+
+  facebook_buttons.send_settings_block:
+    class: Drupal\facebook_buttons\Plugin\Block\SendButtonSettingsBlock

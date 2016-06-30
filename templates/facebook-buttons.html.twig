@@ -2,12 +2,48 @@
 {{ attach_library('facebook_widgets/facebook-sdk') }}
 
 {% if buttons.like %}
-  <div class="fb-like" data-href="{{ url }}" data-layout="{{ layout }}"
-       data-width="{{ width }}" data-action="{{ action }}" data-size="{{ size }}"
-       data-show-faces="{{ show_faces }}" data-share="false">
+  {#
+  /**
+   * If a block is using the template, it will provide a url in the like_url variable
+   *
+   * If the button is added by altering a node, the url of the node is stored
+   * in the url variable
+   */
+  #}
+  {% set url = like_url != '' ? like_url : url %}
+  <div class="fb-like" data-href="{{ url }}" data-layout="{{ like_layout }}"
+       data-width="{{ like_width }}" data-action="{{ like_action }}" data-size="{{ like_size }}"
+       data-show-faces="{{ like_show_faces ? 'true' : 'false' }}" data-share="{{ like_share ? 'true' : 'false' }}">
   </div>
 {% endif %}
 
 {% if buttons.share %}
-  
+  {#
+  /**
+   * If a block is using the template, it will provide a url in the share_url variable
+   *
+   * If the button is added by altering a node, the url of the node is stored
+   * in the url variable
+   */
+  #}
+  {% set url = share_url != '' ? share_url : url %}
+  <div class="fb-share-button" data-href="{{ url }}" data-layout="{{ share_layout }}"
+       data-size="{{ share_size }}" data-mobile-iframe="false">
+    <a class="fb-xfbml-parse-ignore" target="_blank"
+       href="https://www.facebook.com/sharer/sharer.php?u={{ url | url_encode }};src=sdkpreparse">
+    </a>
+  </div>
+{% endif %}
+
+{% if buttons.send %}
+  {#
+  /**
+   * If a block is using the template, it will provide a url in the share_url variable
+   *
+   * If the button is added by altering a node, the url of the node is stored
+   * in the url variable
+   */
+  #}
+  {% set url = send_url != '' ? send_url : url %}
+  <div class="fb-send" data-href="{{ url }}" data-size="{{ send_size }}"></div>
 {% endif %}

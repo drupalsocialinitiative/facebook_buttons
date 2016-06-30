@@ -38,8 +38,8 @@ interface ButtonsSettingsBlockInterface {
    * Saves values in the form
    *
    * @param array $config
-   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   * @param array $values
    */
-  public function blockSubmit(array &$config, FormStateInterface $form_state);
+  public function blockSubmit(array &$config, array &$values);
 
 }

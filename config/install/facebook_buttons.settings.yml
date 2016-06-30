@@ -7,5 +7,5 @@ like:
   action: 'like'
   size: 'small'
   width: ''
+  share: TRUE
   weight: 0
-  language: 'en_US'
