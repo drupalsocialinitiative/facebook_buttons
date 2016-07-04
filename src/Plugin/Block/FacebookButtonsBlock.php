@@ -30,17 +30,17 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class FacebookButtonsBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
   /**
-   * @var \Drupal\facebook_buttons\Plugin\Block\LikeButtonSettingsBlock
+   * @var \Drupal\facebook_widgets_buttons\Plugin\Block\LikeButtonSettingsBlock
    */
   private $likeButton;
 
   /**
-   * @var \Drupal\facebook_buttons\Plugin\Block\ShareButtonSettingsBlock
+   * @var \Drupal\facebook_widgets_buttons\Plugin\Block\ShareButtonSettingsBlock
    */
   private $shareButton;
 
   /**
-   * @var \Drupal\facebook_buttons\Plugin\Block\SendButtonSettingsBlock
+   * @var \Drupal\facebook_widgets_buttons\Plugin\Block\SendButtonSettingsBlock
    */
   private $sendButton;
 
@@ -74,9 +74,9 @@ class FacebookButtonsBlock extends BlockBase implements ContainerFactoryPluginIn
   /**
    * FacebookButtonsBlock constructor.
    *
-   * @param \Drupal\facebook_buttons\Plugin\Block\LikeButtonSettingsBlock $like_button
-   * @param \Drupal\facebook_buttons\Plugin\Block\ShareButtonSettingsBlock $share_button
-   * @param \Drupal\facebook_buttons\Plugin\Block\SendButtonSettingsBlock $send_button
+   * @param \Drupal\facebook_widgets_buttons\Plugin\Block\LikeButtonSettingsBlock $like_button
+   * @param \Drupal\facebook_widgets_buttons\Plugin\Block\ShareButtonSettingsBlock $share_button
+   * @param \Drupal\facebook_widgets_buttons\Plugin\Block\SendButtonSettingsBlock $send_button
    * @param \Drupal\Core\Routing\CurrentRouteMatch $route_match
    * @param array $configuration
    * @param mixed $plugin_id
@@ -99,7 +99,7 @@ class FacebookButtonsBlock extends BlockBase implements ContainerFactoryPluginIn
   public function build() {
 
     $this->block = array(
-      // General setttings
+      // General settings
       '#theme' => 'facebook-buttons',
       '#buttons' => $this->configuration['buttons'],
       // Like settings
