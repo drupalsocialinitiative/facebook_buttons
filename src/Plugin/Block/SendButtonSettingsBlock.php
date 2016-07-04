@@ -1,10 +1,10 @@
 <?php
 /**
  * @file
- * Contains \Drupal\facebook_buttons\Plugin\Block\SendButtonSettingsBlock
+ * Contains \Drupal\facebook_widgets_buttons\Plugin\Block\SendButtonSettingsBlock
  */
 
-namespace Drupal\facebook_buttons\Plugin\Block;
+namespace Drupal\facebook_widgets_buttons\Plugin\Block;
 
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
@@ -12,7 +12,7 @@ use Drupal\Core\StringTranslation\StringTranslationTrait;
 /**
  * Class SendButtonSettingsBlock
  *
- * @package Drupal\facebook_buttons\Plugin\Block
+ * @package Drupal\facebook_widgets_buttons\Plugin\Block
  */
 class SendButtonSettingsBlock implements ButtonsSettingsBlockInterface {
 

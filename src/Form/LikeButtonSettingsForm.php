@@ -1,10 +1,10 @@
 <?php
 /**
  * @file
- * Contains Drupal\facebook_buttons\Form\LikeButtonSettings Form
+ * Contains Drupal\facebook_widgets_buttons\Form\LikeButtonSettings Form
  */
 
-namespace Drupal\facebook_buttons\Form;
+namespace Drupal\facebook_widgets_buttons\Form;
 
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Config\Config;
@@ -16,7 +16,7 @@ use Drupal\Core\Url;
 /**
  * Class LikeButtonSettingsForm
  *
- * @package Drupal\facebook_buttons\Form
+ * @package Drupal\facebook_widgets_buttons\Form
  */
 class LikeButtonSettingsForm implements ButtonsSettingsFormInterface {
 

@@ -6,7 +6,7 @@ use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
 /**
  * Implements hook_theme().
  */
-function facebook_buttons_theme() {
+function facebook_widgets_buttons_theme() {
   return array(
     'facebook-buttons' => array(
       'variables' => _facebook_buttons_conf(),
@@ -18,15 +18,14 @@ function facebook_buttons_theme() {
 /**
  * Implements hook_ENTITY_TYPE_view().
  */
-function facebook_buttons_node_view(array &$build, EntityInterface $node, EntityViewDisplayInterface $display, $view_mode) {
+function facebook_widgets_buttons_node_view(array &$build, EntityInterface $node, EntityViewDisplayInterface $display, $view_mode) {
   $user = $account = \Drupal::currentUser();
-  $config = \Drupal::config('facebook_buttons.settings');
+  $config = \Drupal::config('facebook_widgets_buttons.settings');
   $types = $config->get('like.node_types');
   $teaser_display = $config->get('like.teaser_display');
   $weight = $config->get('like.weight');
 
   $show = ($types[$node->getType()]) && $user->hasPermission('access facebook buttons');
-
 
   if ($show) {
     // Content area
@@ -58,9 +57,11 @@ function _facebook_buttons_get_node_url($node_id) {
 /**
  * Helper function to generate the configuration array used to generate the like
  * button.
+ *
+ * @return array
  */
 function _facebook_buttons_conf() {
-  $config = \Drupal::config('facebook_buttons.settings');
+  $config = \Drupal::config('facebook_widgets_buttons.settings');
   $conf = array(
     // General variables
     'buttons' => array(),

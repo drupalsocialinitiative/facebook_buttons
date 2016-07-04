@@ -1,17 +1,17 @@
 <?php
 /**
  * @file
- * Contains \Drupal\facebook_buttons\Plugin\Network
+ * Contains \Drupal\facebook_widgets_buttons\Plugin\Network
  */
 
-namespace Drupal\facebook_buttons\Plugin\Network;
+namespace Drupal\facebook_widgets_buttons\Plugin\Network;
 
 use Drupal\social_api\Plugin\NetworkBase;
 
 /**
  * Class FacebookButtons.
  *
- * @package Drupal\facebook_buttons\Plugin\Network
+ * @package Drupal\facebook_widgets_buttons\Plugin\Network
  *
  * @Network(
  *   id = "facebook_buttons",

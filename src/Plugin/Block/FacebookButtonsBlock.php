@@ -1,12 +1,15 @@
 <?php
+/**
+ * @file
+ * Contains \Drupal\facebook_widgets_buttons\Plugin\Block\FacebookButtonsBlock
+ */
 
-namespace Drupal\facebook_buttons\Plugin\Block;
+namespace Drupal\facebook_widgets_buttons\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Routing\CurrentRouteMatch;
-use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Url;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -14,7 +17,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
  * Class FacebookButtonsBlock
  *
- * @package Drupal\facebook_buttons\Plugin\Block
+ * @package Drupal\facebook_widgets_buttons\Plugin\Block
  *
  *
  * Provides a Facebook Like Button Block

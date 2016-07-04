@@ -2,20 +2,25 @@
 
 /**
  * @file
- * Contains \Drupal\fblikebutton\Form\FblikebuttonFormSettings
+ * Contains \Drupal\facebook_widgets_buttons\Form\FblikebuttonFormSettings
  */
 
-namespace Drupal\facebook_buttons\Form;
+namespace Drupal\facebook_widgets_buttons\Form;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
+/**
+ * Class FacebookButtonsSettings
+ *
+ * @package Drupal\facebook_widgets_buttons\Form
+ */
 class FacebookButtonsSettings extends ConfigFormBase {
 
   /**
-   * @var \Drupal\facebook_buttons\Form\LikeButtonSettingsForm
+   * @var \Drupal\facebook_widgets_buttons\Form\LikeButtonSettingsForm
    */
   protected $likeForm;
 
@@ -33,7 +38,7 @@ class FacebookButtonsSettings extends ConfigFormBase {
    * FacebookButtonsSettings constructor.
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *
-   * @param \Drupal\facebook_buttons\Form\LikeButtonSettingsForm $like_form
+   * @param \Drupal\facebook_widgets_buttons\Form\LikeButtonSettingsForm $like_form
    */
   public function __construct(ConfigFactoryInterface $config_factory, LikeButtonSettingsForm $like_form) {
     parent::__construct($config_factory);
@@ -45,21 +50,21 @@ class FacebookButtonsSettings extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function getFormId() {
-    return 'facebook_buttons_settings';
+    return 'facebook_widgets_buttons_settings';
   }
 
   /**
    * {@inheritdoc}
    */
   public function getEditableConfigNames() {
-    return array('facebook_buttons.settings');
+    return array('facebook_widgets_buttons.settings');
   }
 
   /**
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    $config = $this->config('facebook_buttons.settings');
+    $config = $this->config('facebook_widgets_buttons.settings');
 
     $form['like'] = $this->likeForm->buildForm($config);
 
@@ -79,7 +84,7 @@ class FacebookButtonsSettings extends ConfigFormBase {
   public function submitForm(array &$form, FormStateInterface $form_state) {
     parent::submitForm($form, $form_state);
 
-    $config = $this->config('facebook_buttons.settings');
+    $config = $this->config('facebook_widgets_buttons.settings');
 
     $this->likeForm->submitForm($config, $form_state);
   }

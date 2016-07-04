@@ -2,6 +2,6 @@ facebook_buttons.settings:
   path: '/admin/config/social-api/social-widgets/facebook/buttons'
   defaults:
     _title: 'Facebook buttons'
-    _form: 'Drupal\facebook_buttons\Form\FacebookButtonsSettings'
+    _form: 'Drupal\facebook_widgets_buttons\Form\FacebookButtonsSettings'
   requirements:
     _permission: 'administer social api widgets'

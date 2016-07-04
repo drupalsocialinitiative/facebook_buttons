@@ -1,19 +1,17 @@
 <?php
 /**
  * @file
- * Contains \Drupal\facebook_buttons\Plugin\Block\ButtonsSettingsFormInterface
+ * Contains \Drupal\facebook_widgets_buttons\Plugin\Block\ButtonsSettingsFormInterface
  */
 
-namespace Drupal\facebook_buttons\Plugin\Block;
+namespace Drupal\facebook_widgets_buttons\Plugin\Block;
 
-
-use Drupal\Core\Config\Config;
 use Drupal\Core\Form\FormStateInterface;
 
 /**
  * Interface ButtonsSettingsFormInterface
  *
- * @package Drupal\facebook_buttons\Form
+ * @package Drupal\facebook_widgets_buttons\Form
  */
 interface ButtonsSettingsBlockInterface {
 
