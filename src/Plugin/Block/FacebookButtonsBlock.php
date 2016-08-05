@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * Contains \Drupal\facebook_widgets_buttons\Plugin\Block\FacebookButtonsBlock
- */
 
 namespace Drupal\facebook_widgets_buttons\Plugin\Block;
 
@@ -13,14 +9,8 @@ use Drupal\Core\Routing\CurrentRouteMatch;
 use Drupal\Core\Url;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-
 /**
- * Class FacebookButtonsBlock
- *
- * @package Drupal\facebook_widgets_buttons\Plugin\Block
- *
- *
- * Provides a Facebook Like Button Block
+ * Defines a bloc for Facebook Buttons.
  *
  * @Block(
  *   id = "facebook_buttons_block",
@@ -30,31 +20,39 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class FacebookButtonsBlock extends BlockBase implements ContainerFactoryPluginInterface {
 
   /**
+   * The like button settings form.
+   *
    * @var \Drupal\facebook_widgets_buttons\Plugin\Block\LikeButtonSettingsBlock
    */
-  private $likeButton;
+  protected $likeButton;
 
   /**
+   * The share button settings form.
+   *
    * @var \Drupal\facebook_widgets_buttons\Plugin\Block\ShareButtonSettingsBlock
    */
-  private $shareButton;
+  protected $shareButton;
 
   /**
+   * The send button settings form.
+   *
    * @var \Drupal\facebook_widgets_buttons\Plugin\Block\SendButtonSettingsBlock
    */
-  private $sendButton;
+  protected $sendButton;
 
   /**
+   * The route match.
+   *
    * @var \Drupal\Core\Routing\CurrentRouteMatch
    */
-  private $routeMatch;
+  protected $routeMatch;
 
   /**
-   * Block render array
+   * Block render array.
    *
    * @var array
    */
-  private $block;
+  protected $block;
 
   /**
    * {@inheritdoc}
@@ -75,16 +73,28 @@ class FacebookButtonsBlock extends BlockBase implements ContainerFactoryPluginIn
    * FacebookButtonsBlock constructor.
    *
    * @param \Drupal\facebook_widgets_buttons\Plugin\Block\LikeButtonSettingsBlock $like_button
+   *   The like button settings form.
    * @param \Drupal\facebook_widgets_buttons\Plugin\Block\ShareButtonSettingsBlock $share_button
+   *   The share button settings form.
    * @param \Drupal\facebook_widgets_buttons\Plugin\Block\SendButtonSettingsBlock $send_button
+   *   The send button settings form.
    * @param \Drupal\Core\Routing\CurrentRouteMatch $route_match
+   *   The route match.
    * @param array $configuration
-   * @param mixed $plugin_id
-   * @param $plugin_definition
+   *   The plugin configuration.
+   * @param string $plugin_id
+   *   The plugin_id for the plugin instance.
+   * @param mixed $plugin_definition
+   *   The plugin implementation definition.
    */
-  public function __construct(LikeButtonSettingsBlock $like_button, ShareButtonSettingsBlock $share_button,
-                              SendButtonSettingsBlock $send_button, CurrentRouteMatch $route_match,
-                              array $configuration, $plugin_id, $plugin_definition) {
+  public function __construct(LikeButtonSettingsBlock $like_button,
+                              ShareButtonSettingsBlock $share_button,
+                              SendButtonSettingsBlock $send_button,
+                              CurrentRouteMatch $route_match,
+                              array $configuration,
+                              $plugin_id,
+                              $plugin_definition) {
+
     parent::__construct($configuration, $plugin_id, $plugin_definition);
 
     $this->likeButton = $like_button;
@@ -94,28 +104,28 @@ class FacebookButtonsBlock extends BlockBase implements ContainerFactoryPluginIn
   }
 
   /**
-  * {@inheritdoc}
-  */
+   * {@inheritdoc}
+   */
   public function build() {
 
     $this->block = array(
-      // General settings
+      // General settings.
       '#theme' => 'facebook-buttons',
       '#buttons' => $this->configuration['buttons'],
-      // Like settings
+      // Like settings.
       '#like_layout' => $this->configuration['like']['layout'],
       '#like_show_faces' => $this->configuration['like']['show_faces'],
       '#like_action' => $this->configuration['like']['action'],
       '#like_size' => $this->configuration['like']['size'],
       '#like_width' => $this->configuration['like']['width'],
-      // Share settings
+      // Share settings.
       '#share_layout' => $this->configuration['share']['layout'],
       '#share_size' => $this->configuration['share']['size'],
-      // Send settings
+      // Send settings.
       '#send_size' => $this->configuration['send']['size'],
     );
 
-    foreach($this->block['#buttons'] as $button => $title) {
+    foreach ($this->block['#buttons'] as $button => $title) {
       $this->checkUrl($button, $this->configuration[$button]['url']);
     }
 
@@ -153,7 +163,7 @@ class FacebookButtonsBlock extends BlockBase implements ContainerFactoryPluginIn
   /**
    * {@inheritdoc}
    */
-  public function blockForm($form, FormStateInterface $form_state ) {
+  public function blockForm($form, FormStateInterface $form_state) {
     $form = parent::blockForm($form, $form_state);
     $config = $this->getConfiguration();
 
@@ -164,7 +174,7 @@ class FacebookButtonsBlock extends BlockBase implements ContainerFactoryPluginIn
     $form['buttons'] = array(
       '#type' => 'checkboxes',
       '#title' => 'Which buttons should be displayed?',
-      '#options' => array('like' => 'Like', 'share' => 'Share', 'send' => 'Send'),
+      '#options' => ['like' => 'Like', 'share' => 'Share', 'send' => 'Send'],
       '#default_value' => $config['buttons'],
     );
 
@@ -184,38 +194,42 @@ class FacebookButtonsBlock extends BlockBase implements ContainerFactoryPluginIn
   }
 
   /**
-   * Check if buttons url point to <current>
+   * Check if buttons url point to <current>.
    *
-   * @param $button
-   *    The button of which to check the url
-   * @param $url
-   *    The url provided in the button form
+   * @param string $button
+   *    The button for which to check the url.
+   * @param string $url
+   *    The url provided in the button form.
    */
   protected function checkUrl($button, $url) {
-    // If it's not for the current page
-    if($url != '<current>') {
-      $this->block['#'.$button.'_url'] = $url;
-    } else {
-      /**
-       * Drupal uses the /node path to refers to the frontpage. That's why facebook
-       * could point to www.example.com/node instead of wwww.example.com.
+    // If it's not for the current page.
+    if ($url != '<current>') {
+      $this->block['#' . $button . '_url'] = $url;
+    }
+    else {
+      /*
+       * Drupal uses the /node path to refers to the frontpage. That's why
+       * facebook could point to www.example.com/node instead of
+       * wwww.example.com.
        *
-       * To avoid this, we check if the current path is the frontpage
+       * To avoid this, we check if the current path is the frontpage.
        */
-      if($this->routeMatch->getRouteName() == 'view.frontpage.page_1') {
+      if ($this->routeMatch->getRouteName() == 'view.frontpage.page_1') {
         global $base_url;
-        $this->block['#'.$button.'_url'] = $base_url;
-      } else {
-        $this->block['#'.$button.'_url'] = Url::fromRoute('<current>', array(), array('absolute' => TRUE))
+        $this->block['#' . $button . '_url'] = $base_url;
+      }
+      else {
+        $this->block['#' . $button . '_url'] = Url::fromRoute('<current>', array(), array('absolute' => TRUE))
           ->toString();
       }
 
-      if(!isset($this->block['#cache'])) {
-        // Avoid this block to be cached
+      if (!isset($this->block['#cache'])) {
+        // Avoid this block to be cached.
         $this->block['#cache'] = array(
           'max-age' => 0,
         );
       }
     }
   }
+
 }

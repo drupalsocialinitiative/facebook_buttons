@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Add Facebook buttons to nodes.
+ */
+
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
 
@@ -28,9 +33,9 @@ function facebook_widgets_buttons_node_view(array &$build, EntityInterface $node
   $show = ($types[$node->getType()]) && $user->hasPermission('access facebook buttons');
 
   if ($show) {
-    // Content area
-    if (($view_mode == 'teaser' && $teaser_display == true) || ($view_mode == 'full')) {
-      $url = _facebook_buttons_get_node_url($node->id());
+    // Content area.
+    if (($view_mode == 'teaser' && $teaser_display == TRUE) || ($view_mode == 'full')) {
+      $url = _facebook_widgets_buttons_get_node_url($node->id());
       $build['facebook_buttons_field'] = array(
         '#theme' => 'facebook-buttons',
         '#buttons' => array('like' => TRUE),
@@ -42,31 +47,33 @@ function facebook_widgets_buttons_node_view(array &$build, EntityInterface $node
 }
 
 /**
- * Gets the node url
+ * Gets the node url.
  *
- * @param $node_id
+ * @param int $node_id
+ *   The node id for which to generate the url.
  *
- * @return \Drupal\Core\GeneratedUrl|string
+ * @return string
+ *   The absolute url of the node.
  */
-function _facebook_buttons_get_node_url($node_id) {
+function _facebook_widgets_buttons_get_node_url($node_id) {
   $url_generator = \Drupal::urlGenerator();
 
   return $url_generator->generateFromRoute('entity.node.canonical', array('node' => $node_id), array('absolute' => TRUE));
 }
 
 /**
- * Helper function to generate the configuration array used to generate the like
- * button.
+ * Generates the configuration array used for the buttons.
  *
- * @return array
+ * @return array.
+ *   The default configuration for the buttons.
  */
 function _facebook_buttons_conf() {
   $config = \Drupal::config('facebook_widgets_buttons.settings');
   $conf = array(
-    // General variables
+    // General variables.
     'buttons' => array(),
     'url' => '',
-    // Like variables
+    // Like variables.
     'like_url' => '',
     'like_layout' => $config->get('like.layout'),
     'like_action' => $config->get('like.action'),
@@ -74,11 +81,11 @@ function _facebook_buttons_conf() {
     'like_show_faces' => $config->get('like.show_faces'),
     'like_size' => $config->get('like.size'),
     'like_share' => $config->get('like.share'),
-    // Share variables
+    // Share variables.
     'share_url' => '',
     'share_layout' => '',
     'share_size' => '',
-    // Send variables
+    // Send variables.
     'send_url' => '',
     'send_size' => '',
   );

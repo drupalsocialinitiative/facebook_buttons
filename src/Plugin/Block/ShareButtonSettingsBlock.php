@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * Contains \Drupal\facebook_widgets_buttons\Plugin\Block\ShareButtonSettingsBlock
- */
 
 namespace Drupal\facebook_widgets_buttons\Plugin\Block;
 
@@ -10,9 +6,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 
 /**
- * Class ShareButtonSettingsBlock
- *
- * @package Drupal\facebook_widgets_buttons\Plugin\Block
+ * Defines de like button settings form.
  */
 class ShareButtonSettingsBlock implements ButtonsSettingsBlockInterface {
 
@@ -38,7 +32,8 @@ class ShareButtonSettingsBlock implements ButtonsSettingsBlockInterface {
       '#options' => array(
         'box_count' => $this->t('Box Count'),
         'button_count' => $this->t('Button Count'),
-        'button' => $this->t('Button')),
+        'button' => $this->t('Button'),
+      ),
       '#default_value' => $config['layout'],
       '#description' => $this->t('Determines the size and amount of social context next to the button'),
     );
@@ -71,4 +66,5 @@ class ShareButtonSettingsBlock implements ButtonsSettingsBlockInterface {
     $config['layout'] = $values['layout'];
     $config['size'] = $values['size'];
   }
+
 }

@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * Contains \Drupal\facebook_widgets_buttons\Plugin\Block\LikeButtonSettingsBlock
- */
 
 namespace Drupal\facebook_widgets_buttons\Plugin\Block;
 
@@ -10,9 +6,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 
 /**
- * Class LikeButtonSettingsBlock
- *
- * @package Drupal\facebook_widgets_buttons\Plugin\Block
+ * Defines de like button settings form.
  */
 class LikeButtonSettingsBlock implements ButtonsSettingsBlockInterface {
 
@@ -50,7 +44,8 @@ class LikeButtonSettingsBlock implements ButtonsSettingsBlockInterface {
         'standard' => $this->t('Standard'),
         'box_count' => $this->t('Box Count'),
         'button_count' => $this->t('Button Count'),
-        'button' => $this->t('Button')),
+        'button' => $this->t('Button'),
+      ),
       '#default_value' => $config['layout'],
       '#description' => $this->t('Determines the size and amount of social context next to the button'),
     );
@@ -81,7 +76,7 @@ class LikeButtonSettingsBlock implements ButtonsSettingsBlockInterface {
     $form['appearance']['share'] = array(
       '#type' => 'radios',
       '#title' => $this->t('Do you want to show the share button?'),
-      '#options' => array($this->t('No'),$this->t('Yes')),
+      '#options' => array($this->t('No'), $this->t('Yes')),
       '#default_value' => (int) $config['share'],
       '#description' => $this->t('If you want to show the share button, select yes.
                         This button is different from the below share button'),
@@ -122,4 +117,5 @@ class LikeButtonSettingsBlock implements ButtonsSettingsBlockInterface {
     $config['share'] = $share;
     $config['width'] = $width;
   }
+
 }

@@ -1,42 +1,40 @@
 <?php
-/**
- * @file
- * Contains \Drupal\facebook_widgets_buttons\Plugin\Block\ButtonsSettingsFormInterface
- */
 
 namespace Drupal\facebook_widgets_buttons\Plugin\Block;
 
 use Drupal\Core\Form\FormStateInterface;
 
 /**
- * Interface ButtonsSettingsFormInterface
- *
- * @package Drupal\facebook_widgets_buttons\Form
+ * Defines an interface for Facebook Buttons Block Settings Form.
  */
 interface ButtonsSettingsBlockInterface {
 
   /**
-   * Build the form
+   * Build the form.
    *
    * @param array $config
+   *   The block configuration array.
    *
    * @return array
+   *   The render array.
    */
   public function blockForm(array &$config);
 
   /**
-   * Validates the form
+   * Validates the form.
    *
    * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The form state.
    */
   public function blockValidate(FormStateInterface $form_state);
 
-
   /**
-   * Saves values in the form
+   * Saves values in the form.
    *
    * @param array $config
+   *   The block configuration array.
    * @param array $values
+   *   The values to store.
    */
   public function blockSubmit(array &$config, array &$values);
 

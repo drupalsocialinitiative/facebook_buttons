@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\facebook_widgets_buttons\Form\FblikebuttonFormSettings
- */
-
 namespace Drupal\facebook_widgets_buttons\Form;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
@@ -13,17 +8,16 @@ use Drupal\Core\Form\FormStateInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Class FacebookButtonsSettings
- *
- * @package Drupal\facebook_widgets_buttons\Form
+ * Creates the settings form for Facebook Widgets Buttons.
  */
 class FacebookButtonsSettings extends ConfigFormBase {
 
   /**
+   * The like settings form.
+   *
    * @var \Drupal\facebook_widgets_buttons\Form\LikeButtonSettingsForm
    */
   protected $likeForm;
-
 
   /**
    * {@inheritdoc}
@@ -33,12 +27,13 @@ class FacebookButtonsSettings extends ConfigFormBase {
                       $container->get('facebook_buttons.like_settings_form'));
   }
 
-
   /**
    * FacebookButtonsSettings constructor.
-   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
+   *   The config factory.
    * @param \Drupal\facebook_widgets_buttons\Form\LikeButtonSettingsForm $like_form
+   *   The like settings form.
    */
   public function __construct(ConfigFactoryInterface $config_factory, LikeButtonSettingsForm $like_form) {
     parent::__construct($config_factory);
@@ -88,4 +83,5 @@ class FacebookButtonsSettings extends ConfigFormBase {
 
     $this->likeForm->submitForm($config, $form_state);
   }
+
 }

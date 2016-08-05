@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * Contains Drupal\facebook_widgets_buttons\Form\LikeButtonSettings Form
- */
 
 namespace Drupal\facebook_widgets_buttons\Form;
 
@@ -10,28 +6,26 @@ use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Config\Config;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
-use Drupal\Core\Url;
-
 
 /**
- * Class LikeButtonSettingsForm
- *
- * @package Drupal\facebook_widgets_buttons\Form
+ * Defines the settings form for the like button.
  */
 class LikeButtonSettingsForm implements ButtonsSettingsFormInterface {
 
   use StringTranslationTrait;
 
   /**
+   * The render cache.
+   *
    * @var \Drupal\Core\Cache\CacheBackendInterface $renderCache
    */
-  private $renderCache;
-
+  protected $renderCache;
 
   /**
    * LikeButtonSettingsForm constructor.
    *
    * @param \Drupal\Core\Cache\CacheBackendInterface $cache
+   *   The render cache.
    */
   public function __construct(CacheBackendInterface $cache) {
     $this->renderCache = $cache;
@@ -65,7 +59,7 @@ class LikeButtonSettingsForm implements ButtonsSettingsFormInterface {
     $form['visibility']['teaser_display'] = array(
       '#type' => 'radios',
       '#title' => $this->t('Do you want to show the Like button on teasers?'),
-      '#options' => array($this->t('No'),$this->t('Yes')),
+      '#options' => array($this->t('No'), $this->t('Yes')),
       '#default_value' => (int) $config->get('like.teaser_display'),
       '#description' => $this->t('If you want to show the like button on teasers, select yes.'),
     );
@@ -82,7 +76,8 @@ class LikeButtonSettingsForm implements ButtonsSettingsFormInterface {
         'standard' => $this->t('Standard'),
         'box_count' => $this->t('Box Count'),
         'button_count' => $this->t('Button Count'),
-        'button' => $this->t('Button')),
+        'button' => $this->t('Button'),
+      ),
       '#default_value' => $config->get('like.layout'),
       '#description' => $this->t('Determines the size and amount of social context next to the button.'),
     );
@@ -106,7 +101,7 @@ class LikeButtonSettingsForm implements ButtonsSettingsFormInterface {
       '#title' => $this->t('Size'),
       '#options' => array(
         'small' => 'Small',
-        'large' => 'Large'
+        'large' => 'Large',
       ),
       '#default_value' => $config->get('like.size'),
       '#description' => $this->t('The size of the button.'),
@@ -114,12 +109,12 @@ class LikeButtonSettingsForm implements ButtonsSettingsFormInterface {
     $form['appearance']['width'] = array(
       '#type' => 'number',
       '#title' => $this->t('Button width'),
-      '#default_value' => $config->get('like.width')
+      '#default_value' => $config->get('like.width'),
     );
     $form['appearance']['share'] = array(
       '#type' => 'radios',
       '#title' => $this->t('Do you want to show the share button?'),
-      '#options' => array($this->t('No'),$this->t('Yes')),
+      '#options' => array($this->t('No'), $this->t('Yes')),
       '#default_value' => (int) $config->get('like.share'),
       '#description' => $this->t('If you want to show the share button, select yes.
                         This button is different from the below share button'),
@@ -128,11 +123,10 @@ class LikeButtonSettingsForm implements ButtonsSettingsFormInterface {
       '#type' => 'number',
       '#title' => $this->t('Weight'),
       '#default_value' => $config->get('like.weight'),
-      '#description' => $this->t('The weight determines where, at the content block, the like button will appear.
+      '#description' => $this->t("The weight determines where, at the content block, the like button will appear.
                         The larger the weight, the lower it will appear on the node. For example, if you want the
                         button to appear more toward the top of the node, choose <em>-40</em> as opposed to
-                        <em>-39, -38, 0, 1,</em> or <em>50,</em> etc. To position the Like button in its own block,
-                        go to the ' . \Drupal::l($this->t('block page'), Url::fromRoute('block.admin_display')) . '.'),
+                        <em>-39, -38, 0, 1,</em> or <em>50,</em> etc."),
     );
 
     return $form;
@@ -144,7 +138,7 @@ class LikeButtonSettingsForm implements ButtonsSettingsFormInterface {
    */
   public function validateForm(FormStateInterface $form_state) {
     $weight = $form_state->getValue(['like', 'weight']);
-    if (null != $weight) {
+    if (NULL != $weight) {
       if (!is_numeric($weight)) {
         $form_state->setErrorByName(array('like', 'weight'), $this->t('The weight of the like button must be a number (examples: 50 or -42 or 0).'));
       }
@@ -177,14 +171,20 @@ class LikeButtonSettingsForm implements ButtonsSettingsFormInterface {
       ->set('like.weight', $weight)
       ->save();
 
-    // Clear render cache
+    // Clear render cache.
     $this->clearCache();
   }
 
   /**
+   * Clears render cache.
+   *
+   * This should allow the buttons to use the new configuration after submitting
+   * the form.
+   *
    * @TODO Clear render cache to make the button use the new configuration
    */
   protected function clearCache() {
     $this->renderCache->invalidateAll();
   }
+
 }

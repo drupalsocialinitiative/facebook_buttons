@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * Contains \Drupal\facebook_widgets_buttons\Plugin\Block\SendButtonSettingsBlock
- */
 
 namespace Drupal\facebook_widgets_buttons\Plugin\Block;
 
@@ -10,9 +6,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 
 /**
- * Class SendButtonSettingsBlock
- *
- * @package Drupal\facebook_widgets_buttons\Plugin\Block
+ * Defines de send button settings form.
  */
 class SendButtonSettingsBlock implements ButtonsSettingsBlockInterface {
 
@@ -60,4 +54,5 @@ class SendButtonSettingsBlock implements ButtonsSettingsBlockInterface {
     $config['url'] = $values['url'];
     $config['size'] = $values['size'];
   }
+
 }
