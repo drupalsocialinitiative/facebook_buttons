@@ -8,7 +8,7 @@ use Drupal\social_api\Plugin\NetworkBase;
  * Creates a network plugin for Facebook Widgets Buttons.
  *
  * @Network(
- *   id = "facebook_buttons",
+ *   id = "facebook_widgets_buttons",
  *   social_network = "Facebook",
  *   type = "social_widgets"
  * )
